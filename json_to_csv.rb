@@ -33,8 +33,10 @@ def get_everything(data, csv, count=0)
 
   case 
   when data.class == Hash
+    print_data(data, csv, count)
   when data.class == Array
     data.each do |data|
+      print_data(data, csv, count)
     end
   end
 end
