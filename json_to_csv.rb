@@ -6,19 +6,23 @@ def print_data(data, csv, count)
     begin
       get_everything(data[key], csv, count + 1)
     rescue 
+      if value.class == Array
+        value.each do |data|
+          csv.write ["," * (count + 1), data, "\n"].join('')
+        end
+      end
       next
     end
   end
 end
 
 def get_everything(data, csv, count=0)
-  new_count = count
   case 
   when data.class == Hash
-    print_data(data, csv, new_count)
+    print_data(data, csv, count)
   when data.class == Array
     data.each do |data|
-      print_data(data, csv, new_count)
+      print_data(data, csv, count)
     end
   end
 end
