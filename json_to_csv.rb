@@ -2,6 +2,7 @@ require 'json'
 
 def print_data(data, csv, count)
   data.each do |key, value|
+    value = 'null' if value.nil?
     csv.write ["," * count, (key if key.class != Hash && key.class != Array), "," , (value if value.class != Hash && value.class != Array), "\n"].join('')
     begin
       get_everything(data[key], csv, count + 1)
@@ -36,5 +37,6 @@ if __FILE__ == $PROGRAM_NAME
 
   csv = File.open("#{File.basename(json_file, ".*")}.csv", 'w')
 
+  pp json_data
   get_everything(json_data, csv)
 end
