@@ -1,9 +1,39 @@
 require 'json'
 
-def parse_everything(csv)
+def get_lines(csv)
+  csv_lines = []
   csv.each_line do |line|
-    puts line
+    csv_lines.append line
   end
+  csv_lines
+end
+
+def build_data(csv)
+  json_object = {}
+  structure = {}
+
+  lines = get_lines(csv)
+  lines.each do |line|
+    level = depth(line)
+    data = entries(line)
+    structure[level] = data(line)[0] 
+    pp structure
+  end
+
+end
+
+def depth(line)
+  count = 0
+  char = line[0]
+  while char == ','
+    count += 1
+    char = line[count]
+  end
+  return count
+end
+
+def entries(line)
+  data = line.strip.split(',').reject(&:empty?)
 end
 
 
@@ -13,7 +43,7 @@ if __FILE__ == $PROGRAM_NAME
 
   puts "creating new file: new_#{File.basename(csv_file, ".*")}.json"
 
-  csv = File.open("new_#{File.basename(csv_file, ".*")}.csv", 'w')
+  json = File.open("new_#{File.basename(csv_file, ".*")}.json", 'w')
 
-  parse_everything(csv)
+  build_data(csv)
 end
