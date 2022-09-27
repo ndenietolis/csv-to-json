@@ -29,7 +29,7 @@ class Parser
     end
     
     def value_parse(stream, symbols)
-      # puts "parsing a value, starting with the character: #{stream[0]"
+      # puts "parsing a value, starting with the character: #{stream[0]}"
       characters = []
       index = 0
       stream.each do |character|
