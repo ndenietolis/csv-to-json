@@ -22,24 +22,20 @@ class Parser
           symbols.append Record.new
           return parse(stream[1..], symbols)
         else
-          return value_parse(stream, symbols)
+          # puts "parsing a value, starting with the character: #{stream[0]}"
+          characters = []
+          index = 0
+          stream.each do |character|
+            break if [",", "\n", "\r"].include?(character)
+            index += 1
+            characters.append character
+          end
+          value = characters.join('') 
+          symbols.append Value.new(value)
+          return parse(stream[index..], symbols)
         end
       end
       return symbols
-    end
-    
-    def value_parse(stream, symbols)
-      # puts "parsing a value, starting with the character: #{stream[0]}"
-      characters = []
-      index = 0
-      stream.each do |character|
-        break if [",", "\n", "\r"].include?(character)
-        index += 1
-        characters.append character
-      end
-      value = characters.join('') 
-      symbols.append Value.new(value)
-      return parse(stream[index..], symbols)
     end
     
     def parse_file(csv_path)
